@@ -6,6 +6,8 @@ def formatter(string, char):
         
         if not string:
             raise ValueError
+        if not char:
+            raise ValueError
         if char <= 0:
             raise ValueError
     except ValueError:
