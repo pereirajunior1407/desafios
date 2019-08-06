@@ -1,12 +1,5 @@
 # Desafio 1: Strings
 
-Após ler o coding style do kernel Linux, você descobre a mágica que é
-ter linhas de código com no máximo 80 caracteres cada uma.
-
-Assim, você decide que de hoje em diante seus e-mails enviados também
-seguirão um padrão parecido e resolve desenvolver um plugin para te ajudar
-com isso. Contudo, seu plugin aceitará no máximo 40 caracteres por linha.
-
 A aplicação a seguir recebe:
 1. um texto qualquer
 2. um limite de comprimento
