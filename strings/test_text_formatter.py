@@ -1,3 +1,4 @@
+# coding=UTF-8
 import unittest
 from text_formatter import formatter
 

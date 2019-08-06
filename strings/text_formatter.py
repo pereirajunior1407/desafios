@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 import textwrap
 
 def formatter(string, char):
