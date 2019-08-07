@@ -9,11 +9,12 @@ uma quebra de linha sempre que alcançar o limite de caractéres estabelecido.
 
 ## Rodando a aplicação
 
+Para que a aplicação funcione corretamente, é necessário o uso do Python 3.7.
 Assumindo que o Python esteja instalado corretamente e no Path, para executar
 a aplicação você deve usar o seguinte comando:
 
 ```sh
-python app.py
+python3.7 app.py
 ```
 
 A seguir você deve inserir o texto que deseja formatar e o limite de caractéres
