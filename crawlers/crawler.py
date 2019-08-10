@@ -1,5 +1,6 @@
 import bs4
 import requests
+import time
 
 def data_scrapping(thread, url):
     bsoup = bs4.BeautifulSoup(url, 'lxml')
@@ -14,32 +15,26 @@ def data_scrapping(thread, url):
         else:
             upvotes = 0
         
-
         if upvotes > 5000:
             find_thread = div.find('div', class_='entry unvoted')
             thread_title = find_thread.find('p', class_='title')
             thread_link = thread_title.find('a').get('href')
-            comment_section = div.find('li', class_='first')
-            comment_section_link = comment_section.find('a').get('href')
-
+            
             if thread_link.startswith('/r/'):
                 thread_link = 'https://old.reddit.com' + thread_link
-
-            if comment_section_link.startswith('/r/'):
-                comment_section_link = 'https://old.reddit.com' + comment_section_link
 
             output_dict = {}
             output_dict['title'] = thread_title.text
             output_dict['thread'] = thread
             output_dict['upvotes'] = str(upvotes)
             output_dict['thread_link'] = thread_link
-            output_dict['comment_section_link'] = comment_section_link
-
             thread_list.append(output_dict)
             
-    print(thread_list)
+    return thread_list
 
 def return_data(thread_command):
+    if not thread_command:
+        raise ValueError
     
     thread_command = thread_command.split(';')
 
@@ -47,10 +42,13 @@ def return_data(thread_command):
 
     for command in thread_command:
 
-        url = requests.get('https://old.reddit.com/r/%s/' % command)
+        url = requests.get('https://old.reddit.com/r/{}/'.format(command))
+        while url.status_code == 429:
+            time.sleep(5)
+            url = requests.get('https://old.reddit.com/r/{}/'.format(command))
 
         thread_list.append(data_scrapping(command, url.text))
-
+    
     return thread_list
 
 

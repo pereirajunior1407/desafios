@@ -6,4 +6,4 @@ WORKDIR /bot_tel
 
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT python3.7 bot_telegram.py
+CMD ["python3.7", "bot_telegram.py"]
