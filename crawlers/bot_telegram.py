@@ -1,25 +1,37 @@
+import os
+
 from crawler import return_data
-import telepot
+from dotenv import load_dotenv
+from telegram.ext import CommandHandler, Updater
 
-bot = telepot.Bot("947060274:AAEL-i7oKiqIf0yCHussI85TBO9a_CuNuzE")
+load_dotenv()
 
-def recebe_comando(msg):
-    if '/nadaparafazer' in msg['text']:
-        lista_de_comandos = msg['text'][14:]
+token=os.getenv("TOKEN")
 
-        chat_id = msg['chat']['id']
+updater = Updater(token=token)
+dispatcher = updater.dispatcher
 
-        output = return_data(lista_de_comandos)
+def recebe_comando(bot, update):
+    message = update.message
+    text = message.text
+    chat_id = message.chat.id
+    command_length = message.entities[0].length + 1
+    threads = text[command_length:]
 
-        try:
-            for thread in output:
-                for subject in thread:
-                    response = "\nTítulo: {}\nThread: {}\nUpvotes: {}\nLink para a Thread: {}".format(subject['title'], subject['thread'], subject['upvotes'], subject['subject_thread_link'])
-        
-        except ValueError:
-            bot.sendMessage(chat_id, 'Erro na requisição. Confira se a lista de Threads está correta.')
+    output = return_data(threads)
 
-bot.message_loop(recebe_comando)
+    try:
+        for thread in output:
+            for subject in thread:
+                response = "\nTítulo: {}\nThread: {}\nUpvotes: {}\nLink para a Thread: {}".format(subject['title'], subject['thread'], subject['upvotes'], subject['thread_link'])
 
-while True:
-    pass
+                bot.send_message(chat_id=chat_id, text=response)
+
+    except ValueError as e:
+        bot.send_message(chat_id=chat_id, text='Erro na requisição. Confira se a lista de Threads está correta.')
+
+
+command_handler = CommandHandler('nadaparafazer', recebe_comando)
+dispatcher.add_handler(command_handler)
+
+updater.start_polling()
