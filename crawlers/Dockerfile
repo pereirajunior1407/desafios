@@ -1,18 +1,9 @@
-FROM python:3.6.9-alpine3.10
+FROM python:3.7.1-stretch
 
+RUN mkdir bot_tel
+COPY . /bot_tel
 WORKDIR /bot_tel
 
-COPY requirements.txt .
-RUN apk add -u --no-cache -t build-dependencies \
-    build-base \
-    libffi-dev \
-    xmlsec-dev \
-    openssl-dev \
-  && pip install -r requirements.txt \
-  && apk del build-dependencies
+RUN pip3 install -r requirements.txt
 
-RUN apk add -u --no-cache libxslt
-
-COPY . .
-
-CMD ["python", "bot_telegram.py"]
+CMD ["python3.7", "bot_telegram.py"]
