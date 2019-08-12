@@ -11,7 +11,7 @@ de threads) separadas por ponto e vírgula.
 Para rodar essa aplicação você deve criar um arquivo .env de acordo com o arquivo .env-sample, preenche-lo com o Token do Telegram que foi enviado por e-mail e então rodar o comando:
 
 ```sh
-docker build -t <nome-da-imagem>
+docker build -t <nome-da-imagem> .
 ```
 E então:
 ```sh
